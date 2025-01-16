@@ -7,8 +7,7 @@ Track your progress, show your growth!
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## Introduction
 This project is a Tracking Activities with API. Built using Go and initialized using GoLand.
@@ -40,11 +39,17 @@ Make sure you have the following installed:
    git clone https://github.com/maziazi/sprint2-monolith.git
    cd FitByte
    ```
-2. Initialize Go modules (if not already initialized):
+   
+2. Kalau Perlu Init Dulu
+    ```bash 
+    go mod init fitbyte
+    ```
+
+3. Initialize Go modules (if not already initialized):
    ```bash
    go mod tidy
    ```
-3. Install dependencies (if any):
+4. Install dependencies (if any):
    ```bash
    go get
    ```
