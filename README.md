@@ -14,13 +14,13 @@ This project is a Tracking Activities with API. Built using Go and initialized u
 
 ## Features
 - **Authentication & Authorization**
-  - **POST** /v1/login
-  - **POST** /v1/register
+  - **POST** /v1/login  ✓
+  - **POST** /v1/register ✓
 - **Profile Management**
    - **GET** /v1/user
    - **PATCH** /v1/user
 - **File Upload**
-   - **POST** /v1/file
+   - **POST** /v1/file ✓
 - **Activity**
    - **POST** /v1/activity
    - **GET** /v1/activity
