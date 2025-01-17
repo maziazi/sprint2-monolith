@@ -79,3 +79,11 @@ fabric.properties
 
 #env
 cmd/.env
+/go.mod
+/go.sum
+/.idea/.gitignore
+/.idea/dataSources.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/sprint2-monolith.iml
+/.idea/vcs.xml
