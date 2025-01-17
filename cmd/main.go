@@ -48,11 +48,12 @@ func main() {
 			v1.RegisterDepartmentRoutes(v1Group)
 		*/
 		v1.RegisterUserRouter(v1Group)
+		v1.RegisterActivityRoutes(v1Group)
 	}
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8081"
 	}
 	log.Printf("Server started on http://localhost:%s", port)
 	router.Run(":" + port)
