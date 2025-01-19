@@ -3,6 +3,7 @@ package handler
 
 import (
 	"errors"
+	"fitbyte/internal/middleware"
 	"fitbyte/internal/service"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -33,7 +34,7 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
-	token, _ := service.GenerateToken(user.Email, user.Id)
+	token, _ := middleware.GenerateToken(user.Email, user.Id)
 	c.JSON(http.StatusOK, gin.H{"email": user.Email, "token": token})
 }
 
@@ -58,7 +59,7 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
-	token, err := service.GenerateToken(user.Email, user.Id)
+	token, _ := middleware.GenerateToken(user.Email, user.Id)
 	if err != nil {
 		log.Printf("Token generation failed: %v", err) // Log jika token gagal
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
