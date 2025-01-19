@@ -51,5 +51,8 @@ func main() {
 		port = "8081"
 	}
 	log.Printf("Server started on http://localhost:%s", port)
-	router.Run(":" + port)
+	err = router.Run(":" + port)
+	if err != nil {
+		return
+	}
 }
