@@ -36,7 +36,7 @@ func RegisterUser(email, password string) (*model.User, error) {
 	}
 
 	// Insert user into database
-	_, err = db.Exec(context.Background(), "INSERT INTO users (email, password, created_at) VALUES ($1, $2, $3)",
+	_, err = db.Exec(context.Background(), `INSERT INTO users (email, password, "createdAt") VALUES ($1, $2, $3)`,
 		email, string(hashedPassword), time.Now())
 	if err != nil {
 		return nil, fmt.Errorf("failed to register user: %v", err)

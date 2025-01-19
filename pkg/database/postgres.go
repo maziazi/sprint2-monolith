@@ -2,9 +2,11 @@ package database
 
 import (
 	"context"
+	"database/sql"
 	"fitbyte/pkg/config"
 	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v4/stdlib"
 	"log"
 	"sync"
 	"time"
@@ -60,4 +62,25 @@ func GetDBPool() *pgxpool.Pool {
 		InitDB()
 	}
 	return dbPool
+}
+
+func GetDB() *sql.DB {
+	if dbPool == nil {
+		log.Println("⚠️ Database connection is not initialized, calling InitDB()")
+		InitDB()
+	}
+
+	// Convert pgxpool.Pool to *sql.DB
+	db := stdlib.OpenDB(*dbPool.Config().ConnConfig)
+
+	// Verify the database connection
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := db.PingContext(ctx); err != nil {
+		log.Fatalf("Failed to ping database: %v", err)
+	}
+
+	log.Println("✅ SQL database instance is ready")
+	return db
 }

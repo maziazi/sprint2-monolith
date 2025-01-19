@@ -43,22 +43,21 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		}
 
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
-		claims := jwt.MapClaims{} // Tidak pakai pointer (&) agar bisa diisi
-		fmt.Println("🔹 Token diterima:", tokenString)
+		claims := jwt.MapClaims{}
 
 		token, err := jwt.ParseWithClaims(tokenString, &claims, func(token *jwt.Token) (interface{}, error) {
 			return jwtSecret, nil
 		})
 
 		if err != nil || !token.Valid {
-			fmt.Println("❌ Invalid Token:", err)
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token"})
 			c.Abort()
 			return
 		}
 
+		// Ambil userID dari klaim
 		if userID, ok := claims["userID"].(float64); ok {
-			c.Set("userID", int(userID))
+			c.Set("userID", uint(userID))
 		} else {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token payload"})
 			c.Abort()

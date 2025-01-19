@@ -2,6 +2,7 @@ package main
 
 import (
 	v1 "fitbyte/api/v1"
+	"fitbyte/internal/handler"
 	"fitbyte/pkg/database"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
@@ -38,9 +39,10 @@ func main() {
 		fmt.Printf(" - %s\n", *bucket.Name)
 	}
 
-	//ROUTING
-	router := gin.Default()
+	handlerInstance := handler.NewHandler(database.GetDB())
 
+	router := gin.Default()
+	//router.Use(middleware.JWTAuthMiddleware())
 	v1Group := router.Group("/v1")
 	{
 		//EXAMPLE
@@ -48,7 +50,7 @@ func main() {
 			v1.RegisterDepartmentRoutes(v1Group)
 		*/
 		v1.RegisterUserRouter(v1Group)
-		v1.RegisterActivityRoutes(v1Group)
+		v1.RegisterActivityRoutes(v1Group, handlerInstance)
 	}
 
 	port := os.Getenv("PORT")
