@@ -4,8 +4,10 @@ import (
 	"context"
 	"errors"
 	"fitbyte/internal/model"
+	"fitbyte/pkg/config"
 	"fitbyte/pkg/database"
 	"fmt"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/jackc/pgx/v4"
 	"golang.org/x/crypto/bcrypt"
 	"time"
@@ -15,7 +17,17 @@ var (
 	ErrEmailNotFound      = errors.New("email not found")
 	ErrInvalidPassword    = errors.New("invalid password")
 	ErrEmailAlreadyExists = errors.New("email already exists")
+	jwtSecret             = []byte(getJWTSecret())
 )
+
+func getJWTSecret() string {
+	secret := config.LoadEnv().JWTSecret
+	if secret == "" {
+		fmt.Println("⚠️  WARNING: JWT_SECRET tidak terbaca, gunakan default untuk debugging!")
+		secret = "default-secret-key"
+	}
+	return secret
+}
 
 func RegisterUser(email, password string) (*model.User, error) {
 	db := database.GetDBPool()
@@ -67,6 +79,12 @@ func Authenticate(email, password string) (*model.User, error) {
 }
 
 func GenerateToken(email string, userId uint) (string, error) {
-	// Dummy implementation for token generation
-	return fmt.Sprintf("token-%d-%s", userId, email), nil
+	claims := jwt.MapClaims{
+		"email":  email,
+		"userID": userId,
+		"exp":    time.Now().Add(time.Hour * 24).Unix(), // Token berlaku 1 hari
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(jwtSecret)
 }
