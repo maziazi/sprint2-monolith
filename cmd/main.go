@@ -2,7 +2,6 @@ package main
 
 import (
 	v1 "fitbyte/api/v1"
-	"fitbyte/internal/middleware"
 	"fitbyte/pkg/database"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
@@ -39,11 +38,7 @@ func main() {
 		fmt.Printf(" - %s\n", *bucket.Name)
 	}
 
-	//handlerInstance := handler.NewHandler(database.GetDB())
-
 	router := gin.Default()
-
-	router.Use(middleware.JWTAuthMiddleware())
 
 	v1Group := router.Group("/v1")
 	{

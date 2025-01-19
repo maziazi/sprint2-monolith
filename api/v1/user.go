@@ -20,5 +20,7 @@ func RegisterUserRouter(router *gin.RouterGroup) {
 				USE EXAMPLE
 			protected.GET("/", handler.GetUserProfileHandler)
 		*/
+		protected.GET("/", handler.GetUserProfileHandler)
+		protected.PATCH("/", handler.UpdateUserProfileHandler)
 	}
 }

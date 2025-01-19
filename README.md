@@ -62,3 +62,7 @@ cd cmd
 go run main.go
 ```
 
+## Bagian UPDATE YANG DI PATCH USER
+patch user kurang bagian validation
+kodenya juga masih berantakan
+
